@@ -1,32 +1,27 @@
 import React from 'react';
 import ShowCard from './ShowCard';
 
-function ShowList({allShows, onWatchList, setOnWatchList}) {
+function ShowList({allShows, onWatchList, setOnWatchList, handleDelete}) {
 
-    // function onWatchClick(item) {
-    //     if (!allShows.includes(item)) {
-    //         setOnWatchList([...allShows, item])
-    //     }
-    // }
+    const showItems = allShows.map((show) => {
+        function onWatchClick() {
+            if (!onWatchList.includes(show)) {
+                setOnWatchList([...onWatchList, show]);
+            }
+        }
 
-    return(
+    return (
+        <ShowCard 
+            key={show.id}
+            show={show}
+            onWatchClick={onWatchClick}
+            handleDelete={handleDelete}
+        />
+    )
+    })
+    return (
         <div className="show-container">
-            {allShows.map((show) => {
-                function onWatchClick(item) {
-                    if (!onWatchList.includes(item)) {
-                        setOnWatchList([...allShows, item])
-                    }
-                }
-        return(
-            <ShowCard 
-                key={show.id}
-                show={show}
-                onWatchList={onWatchList}
-                setOnWatchList={setOnWatchList}
-                onWatchClick={onWatchClick}
-            />
-        )
-    })}
+            {showItems}
         </div>
     );
 }

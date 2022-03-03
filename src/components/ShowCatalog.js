@@ -1,3 +1,4 @@
+import { isElementType } from '@testing-library/user-event/dist/utils';
 import React, {useEffect, useState} from 'react';
 import MyWatchList from './MyWatchList'
 import ShowList from './ShowList'
@@ -15,17 +16,34 @@ function ShowCatalog() {
         })
     }, []);
 
+    function handleDelete (id) {
+        fetch('http://localhost:8081/shows/' + id, {
+        method: 'DELETE',
+        })
+        .then(res => res.text()) 
+        .then(res => {
+            console.log(res)
+            const updatedList = onShows.filter((thing) => thing.id !== id);
+            setOnShows(updatedList);
+            const deleteItem = onWatchList.filter((item) => item.id !== id);
+            setOnWatchList(deleteItem);
+        });
+    }
+    
+
     return(
         <>
             <MyWatchList 
                 onWatchList={onWatchList}
                 setOnWatchList={setOnWatchList}
+                handleDelete={handleDelete}
             />
             <hr/>
             <ShowList 
                 allShows={onShows}
                 onWatchList={onWatchList}
                 setOnWatchList={setOnWatchList}
+                handleDelete={handleDelete}
             />
         </>
     );

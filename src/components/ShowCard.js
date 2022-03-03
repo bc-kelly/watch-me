@@ -1,8 +1,12 @@
 import React from 'react';
 
-function ShowCard({show, onWatchList, setOnWatchList, onShowClicked, onShowDelete, onWatchClick}) {
+function ShowCard({show, onShowClicked, onShowDelete, onWatchClick, handleDelete}) {
+    const { id } = show;
 
-
+    function theDeleteClick(event) {
+        event.stopPropagation();
+        handleDelete(id);
+    }
 
     /** 
      * This function to get the correct image to show up for the streaming service.
@@ -44,7 +48,7 @@ function ShowCard({show, onWatchList, setOnWatchList, onShowClicked, onShowDelet
                 <p>{show.summary}</p>
                 <footer>
                     <img src={getStreamingLogo(show.stream_on)} alt={show.stream_on} className="streaming-logo"></img>
-                    <button onClick={() => console.log("Clicked delete...")}>Delete</button>
+                    <button onClick={theDeleteClick}>Delete</button>
                 </footer>
             </div>
         </div>
